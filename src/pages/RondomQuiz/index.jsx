@@ -2,7 +2,8 @@ import React, { memo, useEffect, useState } from "react";
 import { bilet } from "../../Databese";
 import { defaultImg } from "../../images/";
 import { useSelector } from "react-redux";
-// import "./test.scss";
+import { Link } from "react-router-dom";
+import "./test.scss";
 console.log(Math.floor(Math.random() * bilet.length));
 const index = memo(() => {
 const selector = useSelector(state => state.tests)
@@ -29,49 +30,12 @@ const count = JSON.parse(localStorage.getItem('count'))
     setSurildi(id);
   };
   return (
-    <div>
-      <div
-        className="test__container"
-        style={{ transform: `translateX(${-surildi * 100}vw)` }}
-      >
-        {bilet[count]?.map((item, i) => (
-          <div id="test" key={item.id} className="test__pege">
-            <h1 className="test__title">{item.question}</h1>
-            <div className="test__box">
-              <img
-                className="test__img"
-                src={item.img ? item.img : defaultImg}
-                alt=""
-              />
-              <ul className="test__savollari">
-                {item.answer?.map((answer, index) => (
-                  <button
-                    style={
-                      shablon?.find((e) => e.savol === i)?.disabled
-                        ? shablon?.find(
-                            (e) => e.savol === i && e.variant === index
-                          )?.variant === index 
-                          ? shablon?.find((e) =>e.savol === i && e.status)?.status
-                            ? { backgroundColor: "green" }
-                            : { backgroundColor: "red" }
-                          : null
-                        : null
-                    }
-                    disabled={shablon.find((e) => e.savol == i)?.disabled}
-                    id={i.toString()}
-                    key={index}
-                    onClick={() => hendleClick(index, i)}
-                  >
-                    <p>F{index + 1}</p>
-                    <p>{answer}</p>
-                  </button>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
-      </div>
-      <footer className="footer__test">
+    <>
+      <header className="header__test">
+        <Link to='/'>
+        <button className="test__kanes">Testni Yakunlash</button>
+        </Link>
+        <h2 className="bilet__nomer">{count + 1} - Bilet</h2>
         <ul>
           {bilet[count]?.map((item, index) => (
             <li
@@ -91,9 +55,54 @@ const count = JSON.parse(localStorage.getItem('count'))
             </li>
           ))}
         </ul>
-        <div>0:23:00</div>
-      </footer>
-    </div>
+        <h3 className="time__test">0:23:00</h3>
+      </header>
+
+      <div className="test__container">
+        {bilet[count]?.map((item, i) => (
+          <div
+            id="test"
+            key={item.id}
+            className="test__pege"
+            style={surildi == i ? { display: "block" } : { display: "none" }}
+          >
+            <h1 className="test__title">{item.question}</h1>
+            <div className="test__box" id="test__box">
+              <img
+                className="test__img"
+                src={item.img ? item.img : defaultImg}
+                alt=""
+              />
+              <ul className="test__savollari">
+                {item.answer?.map((answer, index) => (
+                  <button
+                    style={
+                      shablon?.find((e) => e.savol === i)?.disabled
+                        ? shablon?.find(
+                            (e) => e.savol === i && e.variant === index
+                          )?.variant === index
+                          ? shablon?.find((e) => e.savol === i && e.status)
+                              ?.status
+                            ? { backgroundColor: "green" }
+                            : { backgroundColor: "red" }
+                          : null
+                        : null
+                    }
+                    disabled={shablon.find((e) => e.savol == i)?.disabled}
+                    id={i.toString()}
+                    key={index}
+                    onClick={() => hendleClick(index, i)}
+                  >
+                    <p>F{index + 1}</p>
+                    <p>{answer}</p>
+                  </button>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 });
 

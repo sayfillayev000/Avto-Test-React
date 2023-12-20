@@ -3,6 +3,7 @@ import { bilet } from "../../Databese";
 import { defaultImg } from "../../images/";
 import "./test.scss";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const index = memo(() => {
   const selector = useSelector((state) => state.tests);
@@ -28,6 +29,10 @@ const index = memo(() => {
   return (
     <>
       <header className="header__test">
+        <Link to='/'>
+        <button className="test__kanes">Testni Yakunlash</button>
+        </Link>
+        <h2 className="bilet__nomer">{count + 1} - Bilet</h2>
         <ul>
           {bilet[count]?.map((item, index) => (
             <li
@@ -47,15 +52,17 @@ const index = memo(() => {
             </li>
           ))}
         </ul>
-        <div>0:23:00</div>
+        <h3 className="time__test">0:23:00</h3>
       </header>
-      <div
-      id="test__container"
-        className="test__container"
-        style={{ transform: `translateX(${-surildi * 100}vw)` }}
-      >
+
+      <div className="test__container">
         {bilet[count]?.map((item, i) => (
-          <div id="test" key={item.id} className="test__pege">
+          <div
+            id="test"
+            key={item.id}
+            className="test__pege"
+            style={surildi == i ? { display: "block" } : { display: "none" }}
+          >
             <h1 className="test__title">{item.question}</h1>
             <div className="test__box" id="test__box">
               <img

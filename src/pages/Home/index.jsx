@@ -1,7 +1,7 @@
 import "./home.scss";
 import React, { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { quizCount } from "../../store/testCount";
 import { bilet } from "../../Databese";
 
@@ -11,7 +11,6 @@ const index = memo(() => {
   const dispatch = useDispatch();
   const hendleSubmit = (e) => {
     e.preventDefault();
-    // console.log(e.target[0].value);
     dispatch(quizCount(e.target[0].value));
     navigate("/biletlar");
   };
@@ -27,10 +26,10 @@ const index = memo(() => {
     <div className="home">
       {!biletlar && (
         <section className="test__info">
-          <h4>
+          <h2>
             Mazkur testlar O'zbekiston Respublikasi YHXB tomonidan tasdiqlangan
             rasmiy biletlar asosida tuzilgan
-          </h4>
+          </h2>
           <button className="mavzular" type="button">
             Mavzular bo'yicha trenirovkani boshlash{" "}
           </button>
@@ -46,16 +45,9 @@ const index = memo(() => {
         <section className="home__peges">
           <form className="home__form" onSubmit={hendleSubmit}>
             <select name="" id="" className="home__select">
-              <option value="1">1-Bilet</option>
-              <option value="2">2-Bilet</option>
-              <option value="3">3-Bilet</option>
-              <option value="4">4-Bilet</option>
-              <option value="5">5-Bilet</option>
-              <option value="6">6-Bilet</option>
-              <option value="7">7-Bilet</option>
-              <option value="8">8-Bilet</option>
-              <option value="9">9-Bilet</option>
-              <option value="10">10-Bilet</option>
+              {bilet.map(item =>(
+                <option value={item[0]?.quiz_id} >{item[0]?.quiz_id} - Bilet</option>
+              ))}
             </select>
             <button className="form__submit">Boshlash</button>
           </form>
